@@ -18,10 +18,10 @@ you are in smooth sailing land. The lines you wanna copy look something like thi
 
 #+BEGIN_SRC c++
 // dependencies (copy below lines and uncomment)
-// #include "sexpresso.hpp"
 // #include <vector>
 // #include <string>
 // #include <cstdint>
+// #include "sexpresso.hpp"
 #+END_SRC
 
 After that you can move onward!

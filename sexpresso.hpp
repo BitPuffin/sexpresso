@@ -1,10 +1,10 @@
 // Author: Isak Andersson 2016
 
 // dependencies (copy below lines and uncomment)
-// #include "sexpresso.hpp"
 // #include <vector>
 // #include <string>
 // #include <cstdint>
+// #include "sexpresso.hpp"
 
 namespace sexpresso {
 	enum class SexpValueKind : uint8_t { SEXP, STRING };
