@@ -125,7 +125,7 @@ std::cout << sexp.toString();
 
 The outermost s-expression does not get surrounded by paretheses when calling toString, as it treats a string
 as being implicitly surrounded by parentheses. This is so that you can have multiple s-expressions in the "root"
-of your code, and serialization goes back to text the same way it came in. That's why we have the ~myvaluesholder~
+of your code, and serialization goes back to text the same way it came in. That's why we have the ~sexp~
 in the above code example. If we simply called ~toString~ on ~myvalues~ we would get
 
 #+BEGIN_SRC lisp
