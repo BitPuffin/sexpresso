@@ -121,6 +121,59 @@ sexp.addChild(myvaluesholder);
 std::cout << sexp.toString();
 #+END_SRC
 
+*** Important
+
+The outermost s-expression does not get surrounded by paretheses when calling toString, as it treats a string
+as being implicitly surrounded by parentheses. This is so that you can have multiple s-expressions in the "root"
+of your code, and serialization goes back to text the same way it came in. That's why we have the ~myvaluesholder~
+in the above code example. If we simply called ~toString~ on ~myvalues~ we would get
+
+#+BEGIN_SRC lisp
+my-values (sweet baby jesus) (hi mom) just-a-thing
+#+END_SRC
+
+instead of
+
+#+BEGIN_SRC lisp
+(my-values (sweet baby jesus) (hi mom) just-a-thing)
+#+END_SRC
+
+Cool? Cool.
+
+* S-expression primer
+
+Confused? I mean what *iiiis* an s-expression?
+
+s-expressions come from the lisp family of programming languages, it is an
+incredibly simple notation for *lists*, however, since these lists can be nested
+it also means that they are great for representing hierarchies as well, which makes
+it an excellent replacement for XML or JSON.
+
+The notation is simply to surround the elements, separated by whitespace in parentheses,
+like this:
+
+#+BEGIN_SRC lisp
+(here we have an s-expression)
+#+END_SRC
+
+What you see here is a list of 5 symbols: ~here~, ~we~, ~have~, ~an~ and ~s-expression~.
+Like I said you can also put s-expressions inside s-expressions to create hierarchies:
+
+#+BEGIN_SRC lisp
+(my-objects 
+  (object-a (name "isak andersson") 
+            (countries swe uk)) 
+  (object-b (name "joe bain")
+            (countries uk)))
+#+END_SRC
+
+And as you could see earlier in the [[How to use]] section you can query this hierachy easily with
+this library. Say that this s-expression is stored in a variable called ~objs~, you can query it like this:
+
+#+BEGIN_SRC lisp
+auto joe = objs.getChildByPath("my-objects/object-b/name");
+#+END_SRC
+
 * FAQ
 ** Why should I use s-expressions
 because they are more elegant and simple than XML or JSON. Much less work required to parse. And they look nice! (subjective)
