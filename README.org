@@ -5,8 +5,8 @@ move semantics and thus manages to completely avoid calling new/delete, so it's 
 free from memory leaks!
 
 Sexpresso aims to be very simple, nodes are parsed either as s-expressions or strings, even
-a number would be parsed a string, so if you expect a node to be a string, please convert the
-string to a number.
+a number would be parsed a string, so if you expect a node to be a number, please convert the
+string to a number!
 
 * How to use
 ** Parsing
@@ -14,7 +14,17 @@ string to a number.
 Sexpresso does not use any header guard because they are messy and ugly and add extra processing
 to the pre-processor. So instead you'll have to copy the lines from the header and uncomment them
 for the dependency includes from the C++ standard library (see [[http://doc.cat-v.org/bell_labs/pikestyle][pike style]]). After you've done that
-you are in smooth sailing land
+you are in smooth sailing land. The lines you wanna copy look something like this in ~sexpresso.hpp~:
+
+#+BEGIN_SRC c++
+// dependencies (copy below lines and uncomment)
+// #include "sexpresso.hpp"
+// #include <vector>
+// #include <string>
+// #include <cstdint>
+#+END_SRC
+
+After that you can move onward!
 
 #+BEGIN_SRC c++
 auto parsetree = sexpresso::parse(mysexpr);
