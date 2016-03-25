@@ -1,4 +1,4 @@
-// Author: Isak Andersson 2016
+// Author: Isak Andersson 2016 bitpuffin dot com
 
 // dependencies (copy below lines and uncomment)
 // #include <vector>

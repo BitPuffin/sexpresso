@@ -1,4 +1,4 @@
-// Author: Isak Andersson 2016
+// Author: Isak Andersson 2016 bitpuffin dot com
 
 #include <vector>
 #include <string>
