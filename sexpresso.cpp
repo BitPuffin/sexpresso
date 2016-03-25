@@ -18,6 +18,10 @@ namespace sexpresso {
 		this->kind = SexpValueKind::STRING;
 		this->value.str = strval;
 	}
+	Sexp::Sexp(std::vector<Sexp> const& sexpval) {
+		this->kind = SexpValueKind::SEXP;
+		this->value.sexp = sexpval;
+	}
 	Sexp::Sexp(Sexp const& sexp)  {
 		this->kind = sexp.kind;
 		switch(sexp.kind) {
@@ -133,7 +137,7 @@ namespace sexpresso {
 		}
 	}
 
-	auto Sexp::toString() -> std::string {
+	auto Sexp::toString() const -> std::string {
 		auto ostream = std::ostringstream{};
 		// outer sexp does not get surrounded by ()
 		switch(this->kind) {
@@ -149,11 +153,11 @@ namespace sexpresso {
 		return ostream.str();
 	}
 
-	auto Sexp::isString() -> bool {
+	auto Sexp::isString() const -> bool {
 		return this->kind == SexpValueKind::STRING;
 	}
 
-	auto Sexp::isSexp() -> bool {
+	auto Sexp::isSexp() const -> bool {
 		return this->kind == SexpValueKind::SEXP;
 	}
 

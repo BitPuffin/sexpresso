@@ -20,9 +20,9 @@ namespace sexpresso {
 		auto addChild(Sexp sexp) -> void;
 		auto addChild(std::string str) -> void;
 		auto getChildByPath(std::string const& path) -> Sexp*; // unsafe! careful to not have the result pointer outlive the scope of the Sexp object
-		auto toString() -> std::string;
-		auto isString() -> bool;
-		auto isSexp() -> bool;
+		auto toString() const -> std::string;
+		auto isString() const -> bool;
+		auto isSexp() const -> bool;
 	};
 
 	auto parse(std::string const& str, std::string& err) -> Sexp;
