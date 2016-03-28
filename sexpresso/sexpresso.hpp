@@ -13,8 +13,6 @@ namespace sexpresso {
 		Sexp();
 		Sexp(std::string const& strval);
 		Sexp(std::vector<Sexp> const& sexpval);
-		Sexp(Sexp const& sexp);
-		Sexp(Sexp&& sexp);
 		SexpValueKind kind;
 		struct { std::vector<Sexp> sexp; std::string str; } value;
 		auto addChild(Sexp sexp) -> void;

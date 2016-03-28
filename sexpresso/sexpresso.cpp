@@ -22,29 +22,6 @@ namespace sexpresso {
 		this->kind = SexpValueKind::SEXP;
 		this->value.sexp = sexpval;
 	}
-	Sexp::Sexp(Sexp const& sexp)  {
-		this->kind = sexp.kind;
-		switch(sexp.kind) {
-		case SexpValueKind::SEXP:
-			this->value.sexp = std::vector<Sexp>{sexp.value.sexp};
-			break;
-		case SexpValueKind::STRING:
-			this->value.str = sexp.value.str;
-			break;
-		}
-	}
-
-	Sexp::Sexp(Sexp&& sexp) {
-		this->kind = sexp.kind;
-		switch(sexp.kind) {
-		case SexpValueKind::SEXP:
-			this->value.sexp = std::move(sexp.value.sexp);
-			break;
-		case SexpValueKind::STRING:
-			this->value.str = std::move(sexp.value.str);
-			break;
-		}
-	}
 
 	auto Sexp::addChild(Sexp sexp) -> void {
 		if(this->kind == SexpValueKind::STRING) {
