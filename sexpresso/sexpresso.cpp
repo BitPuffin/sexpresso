@@ -171,6 +171,10 @@ namespace sexpresso {
 		}
 	}
 
+	auto Sexp::arguments() -> SexpArgumentIterator {
+		return SexpArgumentIterator{*this};
+	}
+
 	auto parse(std::string const& str, std::string& err) -> Sexp {
 		auto sexprstack = std::stack<Sexp>{};
 		sexprstack.push(Sexp{}); // root
@@ -233,5 +237,26 @@ namespace sexpresso {
 	auto parse(std::string const& str) -> Sexp {
 		auto ignored_error = std::string{};
 		return parse(str, ignored_error);
+	}
+
+	SexpArgumentIterator::SexpArgumentIterator(Sexp& sexp) : sexp(sexp) {}
+
+	auto SexpArgumentIterator::begin() -> iterator {
+		if(this->size() == 0) return this->end(); else return ++(this->sexp.value.sexp.begin());
+	}
+
+	auto SexpArgumentIterator::end() -> iterator { return this->sexp.value.sexp.end(); }
+
+	auto SexpArgumentIterator::begin() const -> const_iterator {
+		if(this->size() == 0) return this->end(); else return ++(this->sexp.value.sexp.begin());
+	}
+
+	auto SexpArgumentIterator::end() const -> const_iterator { return this->sexp.value.sexp.end(); }
+
+	auto SexpArgumentIterator::empty() const -> bool { return this->size() == 0;}
+
+	auto SexpArgumentIterator::size() const -> size_t {
+		auto sz = this->sexp.value.sexp.size();
+		if(sz == 0) return 0; else return sz-1;
 	}
 }

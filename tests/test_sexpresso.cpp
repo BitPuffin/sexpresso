@@ -137,3 +137,12 @@ TEST_CASE("Unnacceptable syntax") {
 	sexpresso::parse("(((\"i am gonna start a string but not close it))", err);
 	REQUIRE(!err.empty());
 }
+
+TEST_CASE("Argument iterator") {
+	auto s = sexpresso::parse("(hi (myshit 1 2 3 \"helloo there mate\"; comment\n sup))");
+	auto yup = sexpresso::Sexp{};
+	for(auto&& arg : s.getChildByPath("hi/myshit")->arguments()) {
+		yup.addChild(arg);
+	}
+	REQUIRE(yup.toString() == "1 2 3 \"helloo there mate\" sup");
+}
