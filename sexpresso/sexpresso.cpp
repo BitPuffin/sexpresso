@@ -225,4 +225,9 @@ namespace sexpresso {
 		}
 		return std::move(sexprstack.top());
 	}
+
+	auto parse(std::string const& str) -> Sexp {
+		auto ignored_error = std::string{};
+		return parse(str, ignored_error);
+	}
 }
