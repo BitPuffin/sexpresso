@@ -105,5 +105,35 @@ TEST_CASE("Inequality") {
 	REQUIRE(!a.equal(b));
 }
 
+TEST_CASE("String literal") {
+	auto err = std::string{};
+	auto s = sexpresso::parse("\"hello world\" hehe", err);
+	REQUIRE(s.value.sexp[0].value.str == "hello world");
+}
 
+TEST_CASE("Hierarchy query") {
+	auto err = std::string{};
+	auto s = sexpresso::parse("(myshit (a (name me) (age 2)) (b (name you) (age 1)))", err);
+	REQUIRE(s.getChildByPath("myshit/a/name")->equal(sexpresso::parse("name me", err)));
+	REQUIRE(s.getChildByPath("myshit/a/age")->equal(sexpresso::parse("age 2", err)));
+	REQUIRE(s.getChildByPath("myshit/a")->equal(sexpresso::parse("a (name me) (age 2)", err)));
 
+	REQUIRE(s.getChildByPath("myshit/b/name")->equal(sexpresso::parse("name you", err)));
+	REQUIRE(s.getChildByPath("myshit/b/age")->equal(sexpresso::parse("age 1", err)));
+	REQUIRE(s.getChildByPath("myshit/b")->equal(sexpresso::parse("b (name you) (age 1)", err)));
+
+	REQUIRE(s.getChildByPath("this/does/not/even/exist/dummy") == nullptr);
+}
+
+TEST_CASE("Unnacceptable syntax") {
+	auto err = std::string{};
+
+	sexpresso::parse("(((lol))", err);
+	REQUIRE(!err.empty());
+
+	sexpresso::parse("((rofl)))", err);
+	REQUIRE(!err.empty());
+
+	sexpresso::parse("(((\"i am gonna start a string but not close it))", err);
+	REQUIRE(!err.empty());
+}
