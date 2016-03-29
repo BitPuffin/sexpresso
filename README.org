@@ -62,7 +62,7 @@ However, it might not always use the vector, if it's simply a string value like 
 above example, then the vector will be empty, and you need to access the string value instead.
 
 #+BEGIN_SRC c++
-if(sub.isSexp()) {
+if(sub->isSexp()) {
   std::cout << sub->value.sexpr[1];
 } else {
   std::cout << sub->value.str;
