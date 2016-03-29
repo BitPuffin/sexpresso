@@ -1,10 +1,15 @@
 // Author: Isak Andersson 2016 bitpuffin dot com
 
-// dependencies (copy below lines and uncomment)
-// #include <vector>
-// #include <string>
-// #include <cstdint>
+// If you don't opt out, copy and paste dependencies before include
+#ifdef SEXPRESSO_OPT_OUT_PIKESTYLE
+#ifndef SEXPRESSO_HEADER
+#define SEXPRESSO_HEADER
+#include <vector>
+#include <string>
+#include <cstdint>
 // #include "sexpresso.hpp"
+#endif
+#endif
 
 namespace sexpresso {
 	enum class SexpValueKind : uint8_t { SEXP, STRING };

@@ -9,22 +9,31 @@ a number would be parsed a string, so if you expect a node to be a number, pleas
 string to a number!
 
 * How to use
-** Parsing
 
-Sexpresso does not use any header guard because they are messy and ugly and add extra processing
-to the pre-processor. So instead you'll have to copy the lines from the header and uncomment them
-for the dependency includes from the C++ standard library (see [[http://doc.cat-v.org/bell_labs/pikestyle][pike style]]). After you've done that
-you are in smooth sailing land. The lines you wanna copy look something like this in ~sexpresso.hpp~:
+By default Sexpresso uses [[http://doc.cat-v.org/bell_labs/pikestyle][pike style]] which means that it does *not* include any header files
+in its headers by default. If you wanna keep using /pike style/ you'll have to locate the line
+in the header you are about to include that will look something like this:
 
 #+BEGIN_SRC c++
-// dependencies (copy below lines and uncomment)
-// #include <vector>
-// #include <string>
-// #include <cstdint>
+#ifdef SEXPRESSO_OPT_OUT_PIKESTYLE
+#ifndef SEXPRESSO_HEADER
+#define SEXPRESSO_HEADER
+#include <vector>
+#include <string>
+#include <cstdint>
 // #include "sexpresso.hpp"
+#endif
+#endif
 #+END_SRC
 
+And copy all of the includes before you include the actual header. If you don't wanna do this
+and use header guards which can add extra processing time for the pre-processor, and all in all
+more unclearness of what includes what (since it ends up being a big chain), you can define
+~SEXPRESSO_OPT_OUT_PIKESTYLE~ for the pre-processor.
+
 After that you can move onward!
+
+** Parsing
 
 #+BEGIN_SRC c++
 auto parsetree = sexpresso::parse(mysexpr);
