@@ -17,6 +17,7 @@ namespace sexpresso {
 		struct { std::vector<Sexp> sexp; std::string str; } value;
 		auto addChild(Sexp sexp) -> void;
 		auto addChild(std::string str) -> void;
+		auto childCount() const -> size_t;
 		auto getChildByPath(std::string const& path) -> Sexp*; // unsafe! careful to not have the result pointer outlive the scope of the Sexp object
 		auto toString() const -> std::string;
 		auto isString() const -> bool;

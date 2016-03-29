@@ -35,6 +35,15 @@ namespace sexpresso {
 		this->addChild(Sexp{str});
 	}
 
+	auto Sexp::childCount() const -> size_t {
+		switch(this->kind) {
+		case SexpValueKind::SEXP:
+			return this->value.sexp.size();
+		case SexpValueKind::STRING:
+			return 1;
+		}
+	}
+
 	auto Sexp::getChildByPath(std::string const& path) -> Sexp* {
 		if(this->kind == SexpValueKind::STRING) return nullptr;
 
