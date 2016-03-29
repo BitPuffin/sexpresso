@@ -151,6 +151,26 @@ namespace sexpresso {
 		return this->kind == SexpValueKind::SEXP && this->childCount() == 0;
 	}
 
+	static auto childrenEqual(std::vector<Sexp> const& a, std::vector<Sexp> const& b) -> bool {
+		if(a.size() != b.size()) return false;
+
+		for(auto i = 0; i < a.size(); ++i) {
+			if(!a[i].equal(b[i])) return false;
+		}
+		return true;
+	}
+	
+	auto Sexp::equal(Sexp const& other) const -> bool {
+		if(this->kind != other.kind) return false;
+		switch(this->kind) {
+		case SexpValueKind::SEXP:
+			return childrenEqual(this->value.sexp, other.value.sexp);
+			break;
+		case SexpValueKind::STRING:
+			return this->value.str == other.value.str;
+		}
+	}
+
 	auto parse(std::string const& str, std::string& err) -> Sexp {
 		auto sexprstack = std::stack<Sexp>{};
 		sexprstack.push(Sexp{}); // root
