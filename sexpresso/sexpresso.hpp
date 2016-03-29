@@ -22,6 +22,7 @@ namespace sexpresso {
 		auto toString() const -> std::string;
 		auto isString() const -> bool;
 		auto isSexp() const -> bool;
+		auto isNil() const -> bool;
 	};
 
 	auto parse(std::string const& str, std::string& err) -> Sexp;

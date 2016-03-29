@@ -147,6 +147,10 @@ namespace sexpresso {
 		return this->kind == SexpValueKind::SEXP;
 	}
 
+	auto Sexp::isNil() const -> bool {
+		return this->kind == SexpValueKind::SEXP && this->childCount() == 0;
+	}
+
 	auto parse(std::string const& str, std::string& err) -> Sexp {
 		auto sexprstack = std::stack<Sexp>{};
 		sexprstack.push(Sexp{}); // root
