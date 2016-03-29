@@ -79,6 +79,25 @@ case sexpresso::SexpValueKind::STRING:
 }
 #+END_SRC
 
+Sexpresso provides a comfortable way to iterate only over the "arguments of a s-expression.
+For example if we have an s-expression like ~(hi 1 2 3)~ then the arguments are ~1~, ~2~ and ~3~.
+If we've parsed and stored that s-expression in a variable called ~hi~, we iterate over its arguments
+like this:
+
+#+BEGIN_SRC c++
+for(auto&& arg : hi.arguments()) {
+  // ..
+}
+
+// or 
+for(auto&& it = hi.arguments().begin(); it != hi.arguments().end(); ++it) {
+  // ..
+}
+#+END_SRC
+
+You can also check if the arguments are empty and how many there are with the ~empty~ and ~size~ methods
+of the ~SexpArgumentIterator~ class.
+
 *WARNING* Be *REALLY* careful that your query result does not exceed the lifetime of
 the parse tree:
 
