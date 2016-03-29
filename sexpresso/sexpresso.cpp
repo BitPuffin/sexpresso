@@ -214,7 +214,7 @@ namespace sexpresso {
 			}
 			case ';':
 				for(; nextiter != str.end() || *nextiter != '\n' || *nextiter != '\r' ; ++nextiter) {}
-				for(; nextiter != str.end() && (*nextiter == '\n' || *nextiter == '\r'; ++nextiter) {}
+				for(; nextiter != str.end() && (*nextiter == '\n' || *nextiter == '\r'); ++nextiter) {}
 				break;
 			default:
 				auto symend = std::find_if(iter, str.end(), [](char const& c) { return std::isspace(c) || c == ')'; });
