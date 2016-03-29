@@ -1,8 +1,10 @@
 // Author: Isak Andersson 2016 bitpuffin dot com
 
+#ifndef SEXPRESSO_OPT_OUT_PIKESTYLE
 #include <vector>
 #include <string>
 #include <cstdint>
+#endif
 #include "sexpresso.hpp"
 
 #include <cctype>
