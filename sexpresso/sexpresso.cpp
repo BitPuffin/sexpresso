@@ -196,7 +196,7 @@ namespace sexpresso {
 			}
 			case '"': {
 				// TODO: handle escape sequences
-				auto i = iter;
+				auto i = iter+1;
 				for(; i != str.end(); ++i) {
 					if(*i == '"') break;
 					if(*i == '\n') {
