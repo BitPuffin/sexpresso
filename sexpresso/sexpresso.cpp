@@ -213,7 +213,7 @@ namespace sexpresso {
 				break;
 			}
 			case ';':
-				for(; nextiter != str.end() || (*nextiter != '\n' && *nextiter != '\r'); ++nextiter) {}
+				for(; nextiter != str.end() && *nextiter != '\n' && *nextiter != '\r'; ++nextiter) {}
 				for(; nextiter != str.end() && (*nextiter == '\n' || *nextiter == '\r'); ++nextiter) {}
 				break;
 			default:
