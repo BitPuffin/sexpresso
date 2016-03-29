@@ -210,6 +210,7 @@ namespace sexpresso {
 				}
 				sexprstack.top().addChild(Sexp{std::string{iter+1, i}});
 				nextiter = i + 1;
+				break;
 			}
 			default:
 				auto symend = std::find_if(iter, str.end(), [](char const& c) { return std::isspace(c) || c == ')'; });
