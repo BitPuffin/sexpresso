@@ -93,6 +93,14 @@ namespace sexpresso {
 		return nullptr;
 	}
 
+	auto Sexp::getChild(size_t idx) -> Sexp& {
+		return this->value.sexp[idx];
+	}
+
+	auto Sexp::getString() -> std::string& {
+		return this->value.str;
+	}
+
 	static auto stringValToString(std::string const& s) -> std::string {
 		if(s.size() == 0) return std::string{"\"\""};
 		if(std::find(s.begin(), s.end(), ' ') == s.end()) return s;
