@@ -30,11 +30,11 @@ namespace sexpresso {
 			this->kind = SexpValueKind::SEXP;
 			this->value.sexp.push_back(Sexp{std::move(this->value.str)});
 		}
-		this->value.sexp.push_back(sexp);
+		this->value.sexp.push_back(std::move(sexp));
 	}
 
 	auto Sexp::addChild(std::string str) -> void {
-		this->addChild(Sexp{str});
+		this->addChild(Sexp{std::move(str)});
 	}
 
 	auto Sexp::childCount() const -> size_t {
