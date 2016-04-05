@@ -69,6 +69,7 @@ namespace sexpresso {
 		for(auto i = paths.begin(); i != paths.end();) {
 			auto start = i;
 			for(auto& child : cur->value.sexp) {
+				auto brk = false;
 				switch(child.kind) {
 				case SexpValueKind::STRING:
 					if(i == paths.end() - 1 && child.value.str == *i) return &child;
@@ -81,11 +82,13 @@ namespace sexpresso {
 						if(fst.value.str == *i) {
 							cur = &child;
 							++i;
-							break;
+							brk = true;
 						}
+						break;
 					case SexpValueKind::SEXP: continue;
 					}
 				}
+				if(brk) break;
 			}
 			if(i == start) return nullptr;
 			if(i == paths.end()) return cur;
