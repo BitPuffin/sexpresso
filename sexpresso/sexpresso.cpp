@@ -60,10 +60,6 @@ namespace sexpresso {
 			}
 			paths.push_back(std::string{start, path.end()});
 		}
-		auto teststr = std::string{};
-		for(auto&& path : paths) {
-			teststr = teststr + path + std::string{"/"};
-		}
 
 		auto* cur = this;
 		for(auto i = paths.begin(); i != paths.end();) {
