@@ -185,10 +185,9 @@ namespace sexpresso {
 		return SexpArgumentIterator{*this};
 	}
 
+	static const std::array<char, 11> escape_chars = { '\'', '"',  '?', '\\',  'a',  'b',  'f',  'n',  'r',  't',  'v' };
+	static const std::array<char, 11> escape_vals  = { '\'', '"', '\?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' };
 	auto parse(std::string const& str, std::string& err) -> Sexp {
-		static std::array<char, 11> escape_chars = { '\'', '"',  '?', '\\',  'a',  'b',  'f',  'n',  'r',  't',  'v' };
-		static std::array<char, 11> escape_vals  = { '\'', '"', '\?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' };
-
 		auto sexprstack = std::stack<Sexp>{};
 		sexprstack.push(Sexp{}); // root
 		auto nextiter = str.begin();
@@ -274,6 +273,24 @@ namespace sexpresso {
 	auto parse(std::string const& str) -> Sexp {
 		auto ignored_error = std::string{};
 		return parse(str, ignored_error);
+	}
+
+	auto escape(std::string const& str) -> std::string {
+		auto count_predicate = [](char const c) {
+			return std::find(escape_vals.begin(), escape_vals.end(), c) != escape_vals.end();
+		};
+		auto escape_count = std::count_if(str.begin(), str.end(), count_predicate);
+		auto result_str = std::string{};
+		result_str.reserve(str.size() + escape_count);
+		for(auto c : str) {
+			auto loc = std::find(escape_vals.begin(), escape_vals.end(), c);
+			if(loc == escape_vals.end()) result_str.push_back(c);
+			else {
+				result_str.push_back('\\');
+				result_str.push_back(escape_chars[loc - escape_vals.begin()]);
+			}
+		}
+		return std::move(result_str);
 	}
 
 	SexpArgumentIterator::SexpArgumentIterator(Sexp& sexp) : sexp(sexp) {}

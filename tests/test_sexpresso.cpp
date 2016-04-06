@@ -153,3 +153,8 @@ TEST_CASE("String Escape Sequences") {
 	REQUIRE(err.empty());
 	REQUIRE(s.getChild(0).getString() == "hey I said \"hey\" yo.\n");
 }
+
+TEST_CASE("Escape Strings") {
+	auto escaped = sexpresso::escape("\n \t \b");
+	REQUIRE(escaped == "\\n \\t \\b");
+}
