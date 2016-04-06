@@ -268,7 +268,6 @@ namespace sexpresso {
 				break;
 			}
 			case '"': {
-				// TODO: handle escape sequences
 				auto i = iter+1;
 				auto start = i;
 				for(; i != str.end(); ++i) {
