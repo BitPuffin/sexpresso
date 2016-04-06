@@ -42,6 +42,13 @@ namespace sexpresso {
 		this->addChild(Sexp::unescaped(std::move(str)));
 	}
 
+	auto Sexp::addExpression(std::string const& str) -> void {
+		auto err = std::string{};
+		auto sexp = parse(str, err);
+		if(!err.empty()) return;
+		for(auto&& c : sexp.value.sexp) this->addChild(std::move(c));
+	}
+
 	auto Sexp::childCount() const -> size_t {
 		switch(this->kind) {
 		case SexpValueKind::SEXP:

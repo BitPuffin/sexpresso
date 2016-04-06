@@ -168,3 +168,13 @@ TEST_CASE("Create Path") {
 	REQUIRE(s1.toString() == "(wow (this (is (cool))))");
 	REQUIRE(c == (s1.getChildByPath(pth)));
 }
+
+TEST_CASE("Add Expression") {
+	auto s = sexpresso::Sexp{};
+	auto& p = s.createPath("oh/my/god");
+	p.addExpression("(r 0) (g 0) (b 23)");
+	auto b = s.getChildByPath("oh/my/god/b");
+	REQUIRE(b != nullptr);
+	REQUIRE(b->toString() == "b 23");
+	REQUIRE(s.toString() == "(oh (my (god (r 0) (g 0) (b 23))))");
+}

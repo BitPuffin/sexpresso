@@ -25,6 +25,7 @@ namespace sexpresso {
 		auto addChild(Sexp sexp) -> void;
 		auto addChild(std::string str) -> void;
 		auto addChildUnescaped(std::string str) -> void;
+		auto addExpression(std::string const& str) -> void;
 		auto childCount() const -> size_t;
 		auto getChild(size_t idx) -> Sexp&; // Call only if Sexp is a Sexp
 		auto getString() -> std::string&;
