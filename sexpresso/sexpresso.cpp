@@ -336,6 +336,7 @@ namespace sexpresso {
 			return std::find(escape_vals.begin(), escape_vals.end(), c) != escape_vals.end();
 		};
 		auto escape_count = std::count_if(str.begin(), str.end(), count_predicate);
+		if(escape_count == 0) return str;
 		auto result_str = std::string{};
 		result_str.reserve(str.size() + escape_count);
 		for(auto c : str) {
