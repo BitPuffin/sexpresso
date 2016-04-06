@@ -19,7 +19,7 @@ namespace sexpresso {
 	}
 	Sexp::Sexp(std::string const& strval) {
 		this->kind = SexpValueKind::STRING;
-		this->value.str = strval;
+		this->value.str = escape(strval);
 	}
 	Sexp::Sexp(std::vector<Sexp> const& sexpval) {
 		this->kind = SexpValueKind::SEXP;
@@ -36,6 +36,10 @@ namespace sexpresso {
 
 	auto Sexp::addChild(std::string str) -> void {
 		this->addChild(Sexp{std::move(str)});
+	}
+
+	auto Sexp::addChildUnescaped(std::string str) -> void {
+		this->addChild(Sexp::unescaped(std::move(str)));
 	}
 
 	auto Sexp::childCount() const -> size_t {
@@ -231,6 +235,13 @@ namespace sexpresso {
 		return SexpArgumentIterator{*this};
 	}
 
+	auto Sexp::unescaped(std::string strval) -> Sexp {
+		auto s = Sexp{};
+		s.kind = SexpValueKind::STRING;
+		s.value.str = std::move(strval);
+		return std::move(s);
+	}
+
 	static const std::array<char, 11> escape_chars = { '\'', '"',  '?', '\\',  'a',  'b',  'f',  'n',  'r',  't',  'v' };
 	static const std::array<char, 11> escape_vals  = { '\'', '"', '\?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' };
 	auto parse(std::string const& str, std::string& err) -> Sexp {
@@ -294,7 +305,7 @@ namespace sexpresso {
 						resultstr.push_back(*it);
 					}
 				}
-				sexprstack.top().addChild(Sexp{std::move(resultstr)});
+				sexprstack.top().addChildUnescaped(std::move(resultstr));
 				nextiter = i + 1;
 				break;
 			}

@@ -24,6 +24,7 @@ namespace sexpresso {
 		struct { std::vector<Sexp> sexp; std::string str; } value;
 		auto addChild(Sexp sexp) -> void;
 		auto addChild(std::string str) -> void;
+		auto addChildUnescaped(std::string str) -> void;
 		auto childCount() const -> size_t;
 		auto getChild(size_t idx) -> Sexp&; // Call only if Sexp is a Sexp
 		auto getString() -> std::string&;
@@ -36,6 +37,7 @@ namespace sexpresso {
 		auto isNil() const -> bool;
 		auto equal(Sexp const& other) const -> bool;
 		auto arguments() -> SexpArgumentIterator;
+		static auto unescaped(std::string strval) -> Sexp;
 	};
 
 	auto parse(std::string const& str, std::string& err) -> Sexp;
