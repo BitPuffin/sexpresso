@@ -158,3 +158,13 @@ TEST_CASE("Escape Strings") {
 	auto escaped = sexpresso::escape("\n \t \b");
 	REQUIRE(escaped == "\\n \\t \\b");
 }
+
+TEST_CASE("Create Path") {
+	auto s1 = sexpresso::Sexp{};
+	auto pth = std::string{"wow/this/is/cool"};
+	auto c = s1.getChildByPath(pth);
+	REQUIRE(c == nullptr);
+	c = &(s1.createPath(pth));
+	REQUIRE(s1.toString() == "(wow (this (is (cool))))");
+	REQUIRE(c == (s1.getChildByPath(pth)));
+}

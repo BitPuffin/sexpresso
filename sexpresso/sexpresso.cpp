@@ -47,20 +47,24 @@ namespace sexpresso {
 		}
 	}
 
+	static auto splitPathString(std::string const& path) -> std::vector<std::string> {
+		auto paths = std::vector<std::string>{};
+		if(path.size() == 0) return paths;
+		auto start = path.begin();
+		for(auto i = path.begin()+1; i != path.end(); ++i) {
+			if(*i == '/') {
+				paths.push_back(std::string{start, i});
+				start = i + 1;
+			}
+		}
+		paths.push_back(std::string{start, path.end()});
+		return std::move(paths);
+	}
+
 	auto Sexp::getChildByPath(std::string const& path) -> Sexp* {
 		if(this->kind == SexpValueKind::STRING) return nullptr;
 
-		auto paths = std::vector<std::string>{};
-		{
-			auto start = path.begin();
-			for(auto i = path.begin()+1; i != path.end(); ++i) {
-				if(*i == '/') {
-					paths.push_back(std::string{start, i});
-					start = i + 1;
-				}
-			}
-			paths.push_back(std::string{start, path.end()});
-		}
+		auto paths = splitPathString(path);
 
 		auto* cur = this;
 		for(auto i = paths.begin(); i != paths.end();) {
@@ -91,6 +95,48 @@ namespace sexpresso {
 			if(i == paths.end()) return cur;
 		}
 		return nullptr;
+	}
+
+	static auto findChild(Sexp& sexp, std::string name) -> Sexp* {
+		auto findPred = [&name](Sexp& s) {
+			switch(s.kind) {
+			case SexpValueKind::SEXP: {
+				if(s.childCount() == 0) return false;
+				auto& hd = s.getChild(0);
+				switch(hd.kind) {
+				case SexpValueKind::SEXP:
+					return false;
+				case SexpValueKind::STRING:
+					return hd.getString() == name;
+				}
+			}
+			case SexpValueKind::STRING:
+				return s.getString() == name;
+			}
+		};
+		auto loc = std::find_if(sexp.value.sexp.begin(), sexp.value.sexp.end(), findPred);
+		if(loc == sexp.value.sexp.end()) return nullptr;
+		else return &(*loc);
+	}
+	
+	auto Sexp::createPath(std::vector<std::string> const& path) -> Sexp& {
+		auto el = this;
+		auto nxt = el;
+		auto pc = path.begin();
+		for(; pc != path.end(); ++pc) {
+			nxt = findChild(*el, *pc);
+			if(nxt == nullptr) break;
+			else el = nxt;
+		}
+		for(; pc != path.end(); ++pc) {
+			el->addChild(Sexp{std::vector<Sexp>{Sexp{*pc}}});
+			el = &(el->getChild(el->childCount()-1));
+		}
+		return *el;
+	}
+
+	auto Sexp::createPath(std::string const& path) -> Sexp& {
+		return this->createPath(splitPathString(path));
 	}
 
 	auto Sexp::getChild(size_t idx) -> Sexp& {
