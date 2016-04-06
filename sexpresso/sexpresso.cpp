@@ -11,6 +11,7 @@
 #include <stack>
 #include <algorithm>
 #include <sstream>
+#include <array>
 
 namespace sexpresso {
 	Sexp::Sexp() {
@@ -185,6 +186,9 @@ namespace sexpresso {
 	}
 
 	auto parse(std::string const& str, std::string& err) -> Sexp {
+		static std::array<char, 11> escape_chars = { '\'', '"',  '?', '\\',  'a',  'b',  'f',  'n',  'r',  't',  'v' };
+		static std::array<char, 11> escape_vals  = { '\'', '"', '\?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' };
+
 		auto sexprstack = std::stack<Sexp>{};
 		sexprstack.push(Sexp{}); // root
 		auto nextiter = str.begin();
@@ -210,7 +214,9 @@ namespace sexpresso {
 			case '"': {
 				// TODO: handle escape sequences
 				auto i = iter+1;
+				auto start = i;
 				for(; i != str.end(); ++i) {
+					if(*i == '\\') { ++i; continue; }
 					if(*i == '"') break;
 					if(*i == '\n') {
 						err = std::string{"Unexpected newline in string literal"};
@@ -221,7 +227,29 @@ namespace sexpresso {
 					err = std::string{"Unterminated string literal"};
 					return Sexp{};
 				}
-				sexprstack.top().addChild(Sexp{std::string{iter+1, i}});
+				auto resultstr = std::string{};
+				resultstr.reserve(i - start);
+				for(auto it = start; it != i; ++it) {
+					switch(*it) {
+					case '\\': {
+						++it;
+						if(it == i) {
+							err = std::string{"Unfinished escape sequence at the end of the string"};
+							return Sexp{};
+						}
+						auto pos = std::find(escape_chars.begin(), escape_chars.end(), *it);
+						if(pos == escape_chars.end()) {
+							err = std::string{"invalid escape char '"} + *it + '\'';
+							return Sexp{};
+						}
+						resultstr.push_back(escape_vals[pos - escape_chars.begin()]);
+						break;
+					}
+					default:
+						resultstr.push_back(*it);
+					}
+				}
+				sexprstack.top().addChild(Sexp{std::move(resultstr)});
 				nextiter = i + 1;
 				break;
 			}

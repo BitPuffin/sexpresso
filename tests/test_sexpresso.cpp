@@ -146,3 +146,10 @@ TEST_CASE("Argument iterator") {
 	}
 	REQUIRE(yup.toString() == "1 2 3 \"helloo there mate\" sup");
 }
+
+TEST_CASE("String Escape Sequences") {
+	auto err = std::string{};
+	auto s = sexpresso::parse("\"hey I said \\\"hey\\\" yo.\\n\"", err);
+	REQUIRE(err.empty());
+	REQUIRE(s.getChild(0).getString() == "hey I said \"hey\" yo.\n");
+}
