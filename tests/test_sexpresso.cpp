@@ -178,3 +178,10 @@ TEST_CASE("Add Expression") {
 	REQUIRE(b->toString() == "b 23");
 	REQUIRE(s.toString() == "(oh (my (god (r 0) (g 0) (b 23))))");
 }
+
+TEST_CASE("toString with escape value in string") {
+	auto s = sexpresso::Sexp{};
+	s.addChildUnescaped("\t\n");
+	REQUIRE(s.toString() == "\"\\t\\n\"");
+}
+

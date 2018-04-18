@@ -158,10 +158,21 @@ namespace sexpresso {
 		return this->value.str;
 	}
 
+	static const std::array<char, 11> escape_chars = { '\'', '"',  '?', '\\',  'a',  'b',  'f',  'n',  'r',  't',  'v' };
+	static const std::array<char, 11> escape_vals  = { '\'', '"', '\?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' };
+	
+	static auto isEscapeValue(char c) -> bool {
+		return std::find(escape_vals.begin(), escape_vals.end(), c) != escape_vals.end();
+	}
+
+	static auto countEscapeValues(std::string const& str) -> size_t {
+		return std::count_if(str.begin(), str.end(), isEscapeValue);
+	}
+
 	static auto stringValToString(std::string const& s) -> std::string {
 		if(s.size() == 0) return std::string{"\"\""};
-		if(std::find(s.begin(), s.end(), ' ') == s.end()) return s;
-		else return ('"' + s + '"');
+		if((std::find(s.begin(), s.end(), ' ') == s.end()) && countEscapeValues(s) == 0) return s;
+		return ('"' + escape(s) + '"');
 	}
 
  static auto toStringImpl(Sexp const& sexp, std::ostringstream& ostream) -> void {
@@ -249,8 +260,6 @@ namespace sexpresso {
 		return std::move(s);
 	}
 
-	static const std::array<char, 11> escape_chars = { '\'', '"',  '?', '\\',  'a',  'b',  'f',  'n',  'r',  't',  'v' };
-	static const std::array<char, 11> escape_vals  = { '\'', '"', '\?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' };
 	auto parse(std::string const& str, std::string& err) -> Sexp {
 		auto sexprstack = std::stack<Sexp>{};
 		sexprstack.push(Sexp{}); // root
@@ -339,10 +348,7 @@ namespace sexpresso {
 	}
 
 	auto escape(std::string const& str) -> std::string {
-		auto count_predicate = [](char const c) {
-			return std::find(escape_vals.begin(), escape_vals.end(), c) != escape_vals.end();
-		};
-		auto escape_count = std::count_if(str.begin(), str.end(), count_predicate);
+		auto escape_count = countEscapeValues(str);
 		if(escape_count == 0) return str;
 		auto result_str = std::string{};
 		result_str.reserve(str.size() + escape_count);
