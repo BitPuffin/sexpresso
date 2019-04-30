@@ -185,3 +185,9 @@ TEST_CASE("toString with escape value in string") {
 	REQUIRE(s.toString() == "\"\\t\\n\"");
 }
 
+TEST_CASE("toString with comma") {
+	auto str = std::string{"(a ((b ,(c d))))"};
+	auto err = std::string{};
+	auto s = sexpresso::parse(str, err);
+	REQUIRE(s.toString() == "(a ((b , (c d))))");
+}

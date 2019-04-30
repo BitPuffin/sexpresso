@@ -329,7 +329,7 @@ namespace sexpresso {
 				for(; nextiter != str.end() && (*nextiter == '\n' || *nextiter == '\r'); ++nextiter) {}
 				break;
 			default:
-				auto symend = std::find_if(iter, str.end(), [](char const& c) { return std::isspace(c) || c == ')'; });
+				auto symend = std::find_if(iter, str.end(), [](char const& c) { return std::isspace(c) || c == ')' || c == '('; });
 				auto& top = sexprstack.top();
 				top.addChild(Sexp{std::string{iter, symend}});
 				nextiter = symend;
