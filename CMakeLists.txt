@@ -20,3 +20,10 @@ install(
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
+
+# Generate pkg-config file
+configure_file(sexpresso.pc.in sexpresso.pc @ONLY)
+install(
+    FILES ${CMAKE_BINARY_DIR}/sexpresso.pc
+    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig
+)
