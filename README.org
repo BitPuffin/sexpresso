@@ -33,6 +33,16 @@ more unclearness of what includes what (since it ends up being a big chain), you
 
 After that you can move onward!
 
+** Building with CMake
+
+The project can be installed as a shared library using CMake:
+
+#+BEGIN_SRC sh
+mkdir build && cd build
+cmake ..
+make && make install
+#+END_SRC
+
 ** Parsing
 
 #+BEGIN_SRC c++
