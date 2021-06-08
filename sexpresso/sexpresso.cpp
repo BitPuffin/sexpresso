@@ -121,6 +121,7 @@ namespace sexpresso {
 				case SexpValueKind::STRING:
 					return hd.getString() == name;
 				}
+				break;
 			}
 			case SexpValueKind::STRING:
 				return s.getString() == name;
