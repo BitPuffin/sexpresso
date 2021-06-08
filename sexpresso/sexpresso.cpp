@@ -267,7 +267,6 @@ namespace sexpresso {
 		for(auto iter = nextiter; iter != str.end(); iter = nextiter) {
 			nextiter = iter + 1;
 			if(std::isspace(*iter)) continue;
-			auto& cursexp = sexprstack.top();
 			switch(*iter) {
 			case '(':
 				sexprstack.push(Sexp{});
