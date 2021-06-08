@@ -69,7 +69,7 @@ namespace sexpresso {
 			}
 		}
 		paths.push_back(std::string{start, path.end()});
-		return std::move(paths);
+		return paths;
 	}
 
 	auto Sexp::getChildByPath(std::string const& path) -> Sexp* {
@@ -257,7 +257,7 @@ namespace sexpresso {
 		auto s = Sexp{};
 		s.kind = SexpValueKind::STRING;
 		s.value.str = std::move(strval);
-		return std::move(s);
+		return s;
 	}
 
 	auto parse(std::string const& str, std::string& err) -> Sexp {
@@ -360,7 +360,7 @@ namespace sexpresso {
 				result_str.push_back(escape_chars[loc - escape_vals.begin()]);
 			}
 		}
-		return std::move(result_str);
+		return result_str;
 	}
 
 	SexpArgumentIterator::SexpArgumentIterator(Sexp& sexp) : sexp(sexp) {}
