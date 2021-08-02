@@ -235,7 +235,7 @@ namespace sexpresso {
 	static auto childrenEqual(std::vector<Sexp> const& a, std::vector<Sexp> const& b) -> bool {
 		if(a.size() != b.size()) return false;
 
-		for(unsigned i = 0; i < a.size(); ++i) {
+		for(auto i = 0u; i < a.size(); ++i) {
 			if(!a[i].equal(b[i])) return false;
 		}
 		return true;
