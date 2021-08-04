@@ -1,0 +1,4 @@
+Sexpresso is available in the public domain through the CC0 license (see COPYING.txt for details, or https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+The following people have made contributions to sexpresso and consented to dedicating their changes to the public domain:
+
+Kenji Brameld, 2021
