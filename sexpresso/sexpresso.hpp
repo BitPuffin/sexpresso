@@ -44,6 +44,7 @@ namespace sexpresso {
 	auto parse(std::string const& str, std::string& err) -> Sexp;
 	auto parse(std::string const& str) -> Sexp;
 	auto escape(std::string const& str) -> std::string;
+	auto printShouldNeverReachHere() -> void;
 
 	struct SexpArgumentIterator {
 		SexpArgumentIterator(Sexp& sexp);

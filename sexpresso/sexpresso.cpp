@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <sstream>
 #include <array>
+#include <iostream>
 
 namespace sexpresso {
 	Sexp::Sexp() {
@@ -56,6 +57,7 @@ namespace sexpresso {
 		case SexpValueKind::STRING:
 			return 1;
 		}
+		printShouldNeverReachHere();
 		return 0;
 	}
 
@@ -126,6 +128,7 @@ namespace sexpresso {
 			case SexpValueKind::STRING:
 				return s.getString() == name;
 			}
+			printShouldNeverReachHere();
 			return false;
 		};
 		auto loc = std::find_if(sexp.value.sexp.begin(), sexp.value.sexp.end(), findPred);
@@ -250,6 +253,7 @@ namespace sexpresso {
 		case SexpValueKind::STRING:
 			return this->value.str == other.value.str;
 		}
+		printShouldNeverReachHere();
 		return false;
 	}
 
@@ -364,6 +368,10 @@ namespace sexpresso {
 			}
 		}
 		return result_str;
+	}
+
+	auto printShouldNeverReachHere() -> void {
+		std::cerr << "Error: Should never reach here " << __FILE__ << ": " << __LINE__ << std::endl;
 	}
 
 	SexpArgumentIterator::SexpArgumentIterator(Sexp& sexp) : sexp(sexp) {}
