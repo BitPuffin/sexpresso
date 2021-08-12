@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <sstream>
 #include <array>
+#include <iostream>
 
 namespace sexpresso {
 	Sexp::Sexp() {
@@ -56,6 +57,8 @@ namespace sexpresso {
 		case SexpValueKind::STRING:
 			return 1;
 		}
+		printShouldNeverReachHere();
+		return 0;
 	}
 
 	static auto splitPathString(std::string const& path) -> std::vector<std::string> {
@@ -69,7 +72,7 @@ namespace sexpresso {
 			}
 		}
 		paths.push_back(std::string{start, path.end()});
-		return std::move(paths);
+		return paths;
 	}
 
 	auto Sexp::getChildByPath(std::string const& path) -> Sexp* {
@@ -120,10 +123,13 @@ namespace sexpresso {
 				case SexpValueKind::STRING:
 					return hd.getString() == name;
 				}
+				break;
 			}
 			case SexpValueKind::STRING:
 				return s.getString() == name;
 			}
+			printShouldNeverReachHere();
+			return false;
 		};
 		auto loc = std::find_if(sexp.value.sexp.begin(), sexp.value.sexp.end(), findPred);
 		if(loc == sexp.value.sexp.end()) return nullptr;
@@ -232,7 +238,7 @@ namespace sexpresso {
 	static auto childrenEqual(std::vector<Sexp> const& a, std::vector<Sexp> const& b) -> bool {
 		if(a.size() != b.size()) return false;
 
-		for(auto i = 0; i < a.size(); ++i) {
+		for(auto i = 0u; i < a.size(); ++i) {
 			if(!a[i].equal(b[i])) return false;
 		}
 		return true;
@@ -247,6 +253,8 @@ namespace sexpresso {
 		case SexpValueKind::STRING:
 			return this->value.str == other.value.str;
 		}
+		printShouldNeverReachHere();
+		return false;
 	}
 
 	auto Sexp::arguments() -> SexpArgumentIterator {
@@ -257,7 +265,7 @@ namespace sexpresso {
 		auto s = Sexp{};
 		s.kind = SexpValueKind::STRING;
 		s.value.str = std::move(strval);
-		return std::move(s);
+		return s;
 	}
 
 	auto parse(std::string const& str, std::string& err) -> Sexp {
@@ -267,7 +275,6 @@ namespace sexpresso {
 		for(auto iter = nextiter; iter != str.end(); iter = nextiter) {
 			nextiter = iter + 1;
 			if(std::isspace(*iter)) continue;
-			auto& cursexp = sexprstack.top();
 			switch(*iter) {
 			case '(':
 				sexprstack.push(Sexp{});
@@ -360,7 +367,11 @@ namespace sexpresso {
 				result_str.push_back(escape_chars[loc - escape_vals.begin()]);
 			}
 		}
-		return std::move(result_str);
+		return result_str;
+	}
+
+	auto printShouldNeverReachHere() -> void {
+		std::cerr << "Error: Should never reach here " << __FILE__ << ": " << __LINE__ << std::endl;
 	}
 
 	SexpArgumentIterator::SexpArgumentIterator(Sexp& sexp) : sexp(sexp) {}
