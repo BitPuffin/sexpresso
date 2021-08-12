@@ -207,7 +207,7 @@ auto joe = objs.getChildByPath("my-objects/object-b/name");
 because they are more elegant and simple than XML or JSON. Much less work required to parse. And they look nice! (subjective)
 
 * Contributing
-This library is public domain (CC0). Gnerally speaking by default, you have copyright on anything you make.
+This library is public domain (CC0). Generally speaking by default, you have copyright on anything you make.
 So you have to explicitly give up copyrights in order to put something in the public domain.
 In this repository, please add your signature to [[CONTRIBUTORS.txt]] when contributing.
 
