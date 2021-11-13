@@ -2,3 +2,5 @@ Sexpresso is available in the public domain through the CC0 license (see COPYING
 The following people have made contributions to sexpresso and consented to dedicating their changes to the public domain:
 
 Kenji Brameld, 2021
+Matt Pharr, 2021
+
