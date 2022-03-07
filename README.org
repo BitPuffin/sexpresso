@@ -195,7 +195,7 @@ Like I said you can also put s-expressions inside s-expressions to create hierar
             (countries uk)))
 #+END_SRC
 
-And as you could see earlier in the [[How to use]] section you can query this hierachy easily with
+And as you could see earlier in the [[How to use]] section you can query this hierarchy easily with
 this library. Say that this s-expression is stored in a variable called ~objs~, you can query it like this:
 
 #+BEGIN_SRC lisp
